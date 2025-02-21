@@ -25,6 +25,7 @@
                     <field name="birth_date"/>
                     <field name="email"/>
                     <field name="phone"/>
+                    <field name="display_name"/>
                 </group>
             </form>
         </field>
@@ -35,8 +36,9 @@
         <field name="model">student.student</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="Name" filter_domain="['|', ('name', 'ilike', self)]"/>
-                <field name="student_code" string="Student Code" filter_domain="['|', ('name', 'ilike', self)]"/>
+                <field name="name" string="Tìm kiếm theo tên"/>
+                <field name="student_code" string="Tìm kiếm theo mã sinh viên"/>
+                <filter string="Nhóm theo ngày sinh" name="group_by_date"  context="{'group_by': 'birth_date'}"/>
             </search>
         </field>
     </record>

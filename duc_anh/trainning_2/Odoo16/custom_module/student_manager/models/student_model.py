@@ -15,7 +15,10 @@ class Student(models.Model):
     @api.depends('name', 'student_code')
     def _compute_display_name(self):
         for student in self:
-            student.display_name = f'{student.name}-{student.student_code}'
+            if student.name and student.student_code:
+              student.display_name = f'{student.name}-{student.student_code}'
+            else:
+              student.display_name = ''
 
     @api.constrains('student_code')
     def _check_unique_student_id(self):
