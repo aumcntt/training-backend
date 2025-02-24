@@ -1,9 +1,31 @@
 <odoo>
 
+
     <record id="action_books" model="ir.actions.act_window">
         <field name="name">Books</field>
         <field name="res_model">library.book</field>
         <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record id="view_books_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Nhập tên sách"/>
+                            <field name="author" placeholder="Nhập tên tác giả"/>
+                        </group>
+                        <group>
+                            <field name="year" placeholder="Nhập năm sản xuất"/>
+                            <field name="student_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
     </record>
 
     <record id="view_books_kanban" model="ir.ui.view">
@@ -12,15 +34,43 @@
         <field name="arch" type="xml">
             <kanban>
                 <field name="name"/>
+                <field name="code"/>
+                <field name="author"/>
+                <field name="year"/>
                 <field name="student_id"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_details">
-                            <strong>
-                                <field name="name"/>
-                            </strong>
-                            <div>
-                                <field name="student_id" widget="many2one" options="{'no_create': True}"/>
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="kanban-title">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="kanban-info">
+                                    <div class="info-row">
+                                        <span class="label">Mã: </span>
+                                        <span class="value">
+                                            <field name="code"/>
+                                        </span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Tác giả: </span>
+                                        <span class="value">
+                                            <field name="author"/>
+                                        </span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Năm: </span>
+                                        <span class="value">
+                                            <field name="year"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="kanban-footer">
+                                    <span class="label">Mã học sinh: </span>
+                                    <field name="student_id" widget="many2one" options="{'no_create': True}"/>
+                                </div>
                             </div>
                         </div>
                     </t>
@@ -28,6 +78,7 @@
             </kanban>
         </field>
     </record>
+
 
     <record id="view_books_list" model="ir.ui.view">
         <field name="name">library.book.tree</field>
@@ -43,20 +94,6 @@
         </field>
     </record>
 
-    <record id="view_books_form" model="ir.ui.view">
-        <field name="name">library.book.form</field>
-        <field name="model">library.book</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="name"/>
-                    <field name="author"/>
-                    <field name="year"/>
-                    <field name="student_id"/>
-                </group>
-            </form>
-        </field>
-    </record>
 
     <menuitem id="library_menu" name="Library" action="action_books" parent="student_menu" sequence="10"/>
 

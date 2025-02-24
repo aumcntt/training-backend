@@ -1,5 +1,16 @@
 import math
 
+def input_positive_integer():
+    while True:
+        try:
+            user_input = int(input("Nhập số nguyên dương"))
+            if user_input > 0:
+                return user_input
+            else:
+                print("Lỗi: Vui lòng nhập một số nguyên dương lớn hơn 0.")
+        except ValueError:
+            print("Lỗi: Vui lòng nhập một số nguyên hợp lệ.")
+
 #Bài 1
 def is_primary(x):
     if x <= 1:
@@ -23,7 +34,7 @@ def sum_primary(n):
 
     return sum_result
 
-bt1 = int(input("Nhập số nguyên dương n: "))
+bt1 = input_positive_integer()
 print(f"Tổng các số nguyen tố từ 1 đến n {sum_primary(bt1)}")
 
 #Bài 2
@@ -38,7 +49,7 @@ def is_palindrome(x):
             return False
     return True
 
-bt2 = int(input("Nhập số nguyên dương n: "))
+bt2 = input_positive_integer()
 print(f'{"Đây là số palindrome" if is_palindrome(bt2) else "Đây không phải số palindrome"}')
 
 
@@ -69,7 +80,7 @@ def list_square_2(n):
 
     return list(result)
 
-bt3 = int(input("Nhập số nguyên dương n: "))
+bt3 = input_positive_integer()
 print(f"Danh sách các số chính phương tu 1 tới n dùng filter {list_square_1(bt3)}")
 print(f"Danh sách các số chính phương tu 1 tới n dùng map {list_square_2(bt3)}")
 
