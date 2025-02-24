@@ -7,6 +7,7 @@
                 <field name="name"/>
                 <field name="student_code"/>
                 <field name="display_name"/>
+                <field name="books_count"/>
                 <field name="birth_date"/>
                 <field name="email"/>
                 <field name="phone"/>
@@ -27,6 +28,9 @@
                     <field name="phone"/>
                     <field name="display_name"/>
                 </group>
+                <xpath expr="//header" position="inside">
+                    <button name="action_view_partners" string="Xem liên hệ" type="object" class="oe_highlight"/>
+                </xpath>
             </form>
         </field>
     </record>
@@ -38,15 +42,25 @@
             <search>
                 <field name="name" string="Tìm kiếm theo tên"/>
                 <field name="student_code" string="Tìm kiếm theo mã sinh viên"/>
-                <filter string="Nhóm theo ngày sinh" name="group_by_date"  context="{'group_by': 'birth_date'}"/>
+                <filter string="Nhóm theo ngày sinh" name="group_by_date" context="{'group_by': 'birth_date'}"/>
+                 <filter name="filter_books_mounted" string="Có mượn sách" domain="[('book_id', '!=', False)]"/>
             </search>
         </field>
+    </record>
+
+    <record id="seq_library_book" model="ir.sequence">
+        <field name="name">Library Book Sequence</field>
+        <field name="code">library.book.sequence</field>
+        <field name="prefix">TV</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
     </record>
 
     <record id="action_student_student" model="ir.actions.act_window">
         <field name="name">Student Records</field>
         <field name="res_model">student.student</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('books_count', '>', 0)]</field>
         <field name="context">{}</field>
     </record>
 
