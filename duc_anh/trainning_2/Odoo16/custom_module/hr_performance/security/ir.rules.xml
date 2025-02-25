@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="rule_employee_draft" model="ir.rule">
+            <field name="name">Employee: Edit Draft Performance Reviews</field>
+            <field name="model_id" ref="model_hr_performance_review"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('state', '=', 'draft')] </field>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record id="rule_manager_approve" model="ir.rule">
+            <field name="name">Manager: Approve Performance Reviews</field>
+            <field name="model_id" ref="model_hr_performance_review"/>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[('state', '=', 'submitted'), ('reviewer_id', '=', user.id)]</field>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">0</field>
+        </record>
+    </data>
+</odoo>

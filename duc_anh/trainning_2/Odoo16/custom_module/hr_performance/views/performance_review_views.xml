@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_performance_review_form" model="ir.ui.view">
+            <field name="name">Performance Review Form</field>
+            <field name="model">hr.performance.review</field>
+            <field name="arch" type="xml">
+                <form string="Performance Review">
+                    <header>
+                        <button name="action_submit" string="Submit" states="draft" class="oe_highlight" type="object"/>
+                        <button name="action_approve" string="Approve" states="submitted" class="oe_highlight"
+                                type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="employee_id"/>
+                                <field name="review_date"/>
+                            </group>
+                            <group>
+                                <field name="performance_score"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="comments"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_performance_review_search" model="ir.ui.view">
+            <field name="name">performance.review.search</field>
+            <field name="model">hr.performance.review</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="performance_score"/>
+                    <field name="state"/>
+                    <field name="reviewer_id"/>
+                    <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                    <filter name="filter_submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+                    <filter name="filter_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                    <filter name="filter_poor_performance" string="Poor Performance"
+                            domain="[('performance_score', '=', '1')]"/>
+                    <filter name="filter_excellent_performance" string="Excellent Performance"
+                            domain="[('performance_score', '=', '4')]"/>
+                    <filter name="filter_all_reviews" string="All Reviews" domain="[]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="view_hr_performance_review_tree" model="ir.ui.view">
+            <field name="name">Performance Review List</field>
+            <field name="model">hr.performance.review</field>
+            <field name="arch" type="xml">
+                <tree string="Performance Reviews">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="review_date"/>
+                    <field name="performance_score"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hr_performance_review" model="ir.actions.act_window">
+            <field name="name">Performance Reviews</field>
+            <field name="res_model">hr.performance.review</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hr_performance_review_root" name="Performance" sequence="10"/>
+        <menuitem id="menu_hr_performance_review" name="Performance Reviews" parent="menu_hr_performance_review_root"
+                  action="action_hr_performance_review"/>
+    </data>
+</odoo>

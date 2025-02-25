@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="action_hr_performance_review" model="ir.actions.act_window">
+            <field name="name">Performance Reviews</field>
+            <field name="res_model">hr.performance.review</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('employee_id', '=', active_id)]</field>
+        </record>
+    </data>
+</odoo>
