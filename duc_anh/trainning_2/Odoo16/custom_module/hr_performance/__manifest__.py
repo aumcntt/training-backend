@@ -5,7 +5,9 @@
     'data': [
         'views/performance_review_views.xml',
         'security/ir.model.access.csv',
-        'security/ir.rules.xml'
+    ],
+    'demo': [
+        'demo/hr_performance_demo.xml',
     ],
     'installable': True,
     'application': True,

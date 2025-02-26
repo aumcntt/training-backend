@@ -1,5 +1,6 @@
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
+
 
 class HrPerformanceReview(models.Model):
     _name = 'hr.performance.review'
@@ -21,7 +22,7 @@ class HrPerformanceReview(models.Model):
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
         ('approved', 'Approved')
-    ], string='Status', default='draft', tracking=True)
+    ], string='Status', default='draft', tracking=True , readonly=True)
 
     @api.constrains('review_date')
     def _check_review_date(self):
@@ -29,10 +30,34 @@ class HrPerformanceReview(models.Model):
             if record.review_date < fields.Date.today():
                 raise ValidationError("Review Date không thể ở quá khứ")
 
+    def check_approved(self, record):
+        if self.env.user == record.reviewer_id and self.env.user.has_group('hr.group_hr_manager'):
+            return
+        if not self.env.user.has_group('base.group_system'):
+            raise UserError("Only managers can approve this review.")
+
+    def unlink(self):
+        for record in self:
+            if  record.state in ['submitted', 'approved'] and not self.env.user.has_group('base.group_system'):
+                raise UserError("You cannot delete this review.")
+
+        return super(HrPerformanceReview, self).unlink()
+
+    def write(self, vals):
+        for record in self:
+            if 'state' in vals and vals['state'] == 'approved':
+                self.check_approved(record)
+            else:
+                if record.state in ['submitted', 'approved'] and not self.env.user.has_group('base.group_system'):
+                    raise UserError("Only the admin can edit this review.")
+
+        return super(HrPerformanceReview, self).write(vals)
+
     def action_submit(self):
         for record in self:
             record.state = 'submitted'
 
     def action_approve(self):
         for record in self:
+            self.check_approved(record)
             record.state = 'approved'

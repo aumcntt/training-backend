@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="admin_user_2222" model="res.users">
+            <field name="name">Admin User</field>
+            <field name="login">admin</field>
+            <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <record id="performance_review_john_doe_1" model="hr.performance.review">
+            <field name="name">John Doe Performance Review - 2021</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2027-06-15</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">3</field>
+            <field name="comments">Good performance, needs improvement in communication.</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="performance_review_jane_smith_1" model="hr.performance.review">
+            <field name="name">Jane Smith Performance Review - 2021</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2025-08-20</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">4</field>
+            <field name="comments">Excellent performance, very proactive.</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="performance_review_joe_black_1" model="hr.performance.review">
+            <field name="name">Joe Black Performance Review - 2022</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2026-01-10</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">2</field>
+            <field name="comments">Average performance, needs improvement in technical skills.</field>
+            <field name="state">submitted</field>
+        </record>
+
+        <record id="performance_review_lisa_white_1" model="hr.performance.review">
+            <field name="name">Lisa White Performance Review - 2022</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2025-02-28</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">1</field>
+            <field name="comments">Poor performance, requires significant improvement.</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="performance_review_john_doe_2" model="hr.performance.review">
+            <field name="name">John Doe Performance Review - 2022</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2025-05-10</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">4</field>
+            <field name="comments">Excellent performance, great leadership skills.</field>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="performance_review_joe_black_2" model="hr.performance.review">
+            <field name="name">Joe Black Performance Review - 2023</field>
+            <field name="employee_id" ref="hr.employee_stw"/>
+            <field name="review_date">2025-03-01</field>
+            <field name="reviewer_id" ref="admin_user_2222"/>
+            <field name="performance_score">3</field>
+            <field name="comments">Good performance, improvement needed in team collaboration.</field>
+            <field name="state">approved</field>
+        </record>
+
+    </data>
+</odoo>

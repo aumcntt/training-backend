@@ -21,22 +21,13 @@ class HrEmployee(models.Model):
     @api.depends('performance_review_ids.state', 'performance_review_ids.performance_score')
     def _compute_average_performance_score(self):
         for employee in self:
-            approved_reviews = self.env['hr.performance.review'].search([
-                ('employee_id', '=', employee.id),
-                ('state', '=', 'approved')
-            ])
+            approved_reviews = employee.performance_review_ids.filtered(lambda r: r.state == 'approved')
 
             if approved_reviews:
                 total_score = 0
                 for review in approved_reviews:
-                    if review.performance_score == '1':
-                        total_score += 1
-                    elif review.performance_score == '2':
-                        total_score += 2
-                    elif review.performance_score == '3':
-                        total_score += 3
-                    elif review.performance_score == '4':
-                        total_score += 4
+                    total_score += int(
+                        review.performance_score)
                 employee.average_performance_score = total_score / len(approved_reviews)
             else:
                 employee.average_performance_score = 0.0

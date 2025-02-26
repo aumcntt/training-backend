@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="employee_john_doe" model="hr.employee">
+            <field name="name">John Doe</field>
+            <field name="department_id" ref="dep_ps"/>
+            <field name="job_id" ref="hr.job_consultant"/>
+            <field name="job_title">Consultant</field>
+            <field name="work_phone">(482)-233-1111</field>
+            <field name="create_date">2012-05-15 00:00:00</field>
+            <field name="marital">single</field>
+        </record>
+
+        <record id="employee_jane_smith" model="hr.employee">
+            <field name="name">Jane Smith</field>
+            <field name="department_id" ref="dep_ps"/>
+            <field name="job_id" ref="hr.job_consultant"/>
+            <field name="job_title">Consultant</field>
+            <field name="work_phone">(482)-233-2222</field>
+            <field name="create_date">2013-07-22 00:00:00</field>
+            <field name="marital">single</field>
+        </record>
+
+        <!-- Employee 3: Joe Black -->
+        <record id="employee_joe_black" model="hr.employee">
+            <field name="name">Joe Black</field>
+            <field name="department_id" ref="dep_it"/>
+            <field name="job_id" ref="hr.job_consultant"/>
+            <field name="job_title">Technician</field>
+            <field name="work_phone">(482)-233-3333</field>
+            <field name="create_date">2015-03-10 00:00:00</field>
+            <field name="marital">married</field>
+        </record>
+
+        <!-- Employee 4: Lisa White -->
+        <record id="employee_lisa_white" model="hr.employee">
+            <field name="name">Lisa White</field>
+            <field name="department_id" ref="dep_hr"/>
+            <field name="job_id" ref="hr.job_consultant"/>
+            <field name="job_title">HR Specialist</field>
+            <field name="work_phone">(482)-233-4444</field>
+            <field name="create_date">2017-11-01 00:00:00</field>
+            <field name="marital">single</field>
+        </record>
+    </data>
+
+</odoo>
