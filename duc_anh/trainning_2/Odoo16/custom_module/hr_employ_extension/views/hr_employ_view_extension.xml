@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="view_hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button name="%(action_hr_performance_review)d"
+                            class="oe_stat_button"
+                            icon="fa-star"
+                            type="action"
+                    >
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="performance_review_count"/>
+                            </span>
+                            <span class="o_stat_text">Review</span>
+                        </div>
+                    </button>
+                </div>
+                <xpath expr="//sheet//group" position="before">
+                    <group>
+                        <field name="average_performance_score" string="Average Performance Score" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
