@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="view_hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button name="action_open_certification_skill_wizard"
+                            class="oe_stat_button"
+                            icon="fa-cogs"
+                            type="object"
+                    >
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Update Skills</span>
+                        </div>
+                    </button>
+                </div>
+                <xpath expr="//sheet//group" position="before">
+                    <group>
+                        <field name="years_of_experience" string="Experience" readonly="1"/>
+                        <field name="has_certifications" string="Has Certifications" invisible="True"/>
+                    </group>
+                    <group string="Certifications">
+                        <field name="certifications">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_issued"/>
+                                <field name="years_of_experience"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Skills">
+                        <field name="skills" attrs="{'invisible': [('has_certifications', '=', False)]}">
+                            <tree>
+                                <field name="name"/>
+                                <field name="experience_points"/>
+                                <field name="years_of_experience"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
