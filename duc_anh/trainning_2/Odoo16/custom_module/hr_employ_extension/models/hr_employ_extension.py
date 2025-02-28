@@ -36,7 +36,6 @@ class HrEmployee(models.Model):
                 record.years_of_experience = 0
 
     def write(self, vals):
-        print(len(vals.get('certifications')[0]))
         if 'certifications' in vals and len(vals.get('certifications')[0]) == 3 and vals.get('certifications')[0][0] == 6:
             new_certifications = set(vals.get('certifications')[0][2])
             existing_certifications = set(self.certifications.ids)
