@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
 
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
@@ -35,15 +36,10 @@ class HrEmployee(models.Model):
                 record.years_of_experience = 0
 
     def write(self, vals):
-        if 'certifications' in vals:
-            print(vals)
-            if isinstance(vals.get('certifications'), list):
-                new_certifications = set(vals.get('certifications')[0][2])
-            else:
-                new_certifications = set(vals.get('certifications', []))
-
+        print(len(vals.get('certifications')[0]))
+        if 'certifications' in vals and len(vals.get('certifications')[0]) == 3 and vals.get('certifications')[0][0] == 6:
+            new_certifications = set(vals.get('certifications')[0][2])
             existing_certifications = set(self.certifications.ids)
-
             deleted_certifications = existing_certifications - new_certifications
 
             if deleted_certifications:
@@ -69,6 +65,7 @@ class HrEmployee(models.Model):
             },
         }
 
+
 class EmployeeCertification(models.Model):
     _name = 'employee.certification'
     _sql_constraints = [
@@ -76,10 +73,10 @@ class EmployeeCertification(models.Model):
     ]
 
     employee_id = fields.Many2many('hr.employee',
-                                    'employee_certification_rel',
-                                    'certification_id',
-                                    'employee_id',
-                                    string="Employees")
+                                   'employee_certification_rel',
+                                   'certification_id',
+                                   'employee_id',
+                                   string="Employees")
     skill_id = fields.One2many('employee.skill', 'certification_id', string="Skills")
     name = fields.Char(string="Certification Name", required=True)
     date_issued = fields.Date(string="Date Issued")
@@ -102,6 +99,7 @@ class EmployeeCertification(models.Model):
             if record.skill_id:
                 self.env['employee.skill'].search([('certification_id', '=', record.id)]).unlink()
         return super(EmployeeCertification, self).unlink()
+
 
 class EmployeeSkill(models.Model):
     _name = 'employee.skill'
@@ -156,4 +154,3 @@ class EmployeeSkill(models.Model):
                 raise ValidationError("Nhân viên không thể có quá 10 kỹ năng")
 
         return super(EmployeeSkill, self).create(vals_list)
-
