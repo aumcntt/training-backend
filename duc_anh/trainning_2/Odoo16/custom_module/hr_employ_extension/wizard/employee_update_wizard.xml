@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record id="view_employee_update_wizard" model="ir.ui.view">
+            <field name="name">employee.update.wizard.form</field>
+            <field name="model">employee.update.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Update Employee Certifications">
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="add_certification"/>
+                        </group>
+                        <group>
+                            <field name="update_skills" readonly="1"/>
+                            <field name="add_experience_points"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Update" type="object" name="action_update_employees" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_update_wizard" model="ir.actions.act_window">
+            <field name="name">Update Employees</field>
+            <field name="res_model">employee.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_employee_update" name="Update Employee Certifications"
+                  parent="hr.menu_hr_root" action="action_employee_update_wizard"/>
+    </data>
+</odoo>

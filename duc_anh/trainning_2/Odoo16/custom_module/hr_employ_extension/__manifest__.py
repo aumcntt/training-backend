@@ -9,6 +9,7 @@
         'wizard/employee_skill_wizard.xml',
         'views/employee_certification.xml',
         'views/employee_skill.xml',
+        'wizard/employee_update_wizard.xml',
         'security/security.xml',
         'security/ir.model.access.csv'
     ],

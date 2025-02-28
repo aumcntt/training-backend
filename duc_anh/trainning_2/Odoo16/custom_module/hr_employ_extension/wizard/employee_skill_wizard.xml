@@ -8,6 +8,7 @@
                     <group>
                         <field name="employee_id"/>
                         <field name="certification_id"/>
+                        <field name="experience_points" />
                     </group>
                     <footer>
                         <button name="action_update_skills" type="object" string="Update Skills" class="btn-primary"/>

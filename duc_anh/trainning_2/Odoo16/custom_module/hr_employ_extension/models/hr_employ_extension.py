@@ -1,7 +1,5 @@
-from pkg_resources import require
-
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
@@ -9,8 +7,11 @@ class HrEmployee(models.Model):
     years_of_experience = fields.Integer(string="Years of Experience", compute="_compute_years_of_experience",
                                          store=True, readonly=True)
 
-    certifications = fields.One2many('employee.certification', 'employee_id', string="Certifications")
-
+    certifications = fields.Many2many('employee.certification',
+                                      'employee_certification_rel',
+                                      'employee_id',
+                                      'certification_id',
+                                      string="Certifications")
     skills = fields.One2many('employee.skill', 'employee_id', string="Skills")
 
     has_certifications = fields.Boolean(compute='_compute_has_certifications', string="Has Certifications", store=False)
@@ -33,6 +34,27 @@ class HrEmployee(models.Model):
             else:
                 record.years_of_experience = 0
 
+    def write(self, vals):
+        if 'certifications' in vals:
+            print(vals)
+            if isinstance(vals.get('certifications'), list):
+                new_certifications = set(vals.get('certifications')[0][2])
+            else:
+                new_certifications = set(vals.get('certifications', []))
+
+            existing_certifications = set(self.certifications.ids)
+
+            deleted_certifications = existing_certifications - new_certifications
+
+            if deleted_certifications:
+                for cert_id in deleted_certifications:
+                    self.env['employee.skill'].search([
+                        ('employee_id', '=', self.id),
+                        ('certification_id', '=', cert_id)
+                    ]).unlink()
+
+        return super(HrEmployee, self).write(vals)
+
     def action_open_certification_skill_wizard(self):
         if not self.has_certifications:
             raise ValidationError("Employee hiên tại không có bất kỳ chứng chỉ nào để cập nhật")
@@ -50,10 +72,14 @@ class HrEmployee(models.Model):
 class EmployeeCertification(models.Model):
     _name = 'employee.certification'
     _sql_constraints = [
-        ('name_unique', 'unique(employee_id, name)', 'Certification name must be unique for each employee.')
+        ('name_unique', 'unique(name)', 'Certification name must be unique')
     ]
 
-    employee_id = fields.Many2one('hr.employee', string="Employee")
+    employee_id = fields.Many2many('hr.employee',
+                                    'employee_certification_rel',
+                                    'certification_id',
+                                    'employee_id',
+                                    string="Employees")
     skill_id = fields.One2many('employee.skill', 'certification_id', string="Skills")
     name = fields.Char(string="Certification Name", required=True)
     date_issued = fields.Date(string="Date Issued")
@@ -73,7 +99,6 @@ class EmployeeCertification(models.Model):
 
     def unlink(self):
         for record in self:
-            print(record.skill_id, "record")
             if record.skill_id:
                 self.env['employee.skill'].search([('certification_id', '=', record.id)]).unlink()
         return super(EmployeeCertification, self).unlink()
@@ -111,9 +136,14 @@ class EmployeeSkill(models.Model):
             if existing_record and existing_record != record:
                 raise ValidationError("Kỹ năng đi kèm chứng chỉ đã tồn tại")
 
+    def write(self, values):
+        for record in self:
+            if record.certification_id:
+                raise UserError("Không thể edit vì đã có chứng chỉ đi kèm")
+        return super(EmployeeSkill, self).write(values)
+
     def create(self, vals_list):
         employee_ids = []
-        print(vals_list)
         if isinstance(vals_list, list):
             employee_ids = list(set([vals.get('employee_id') for vals in vals_list if vals.get('employee_id')]))
 

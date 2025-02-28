@@ -1,11 +1,8 @@
 from odoo import models, fields, api
 
-
 class EmployeeSkillWizard(models.TransientModel):
     _name = 'employee.skill.wizard'
     _description = 'Employee Skill Update Wizard'
-
-    certification_id_list = []
 
     employee_id = fields.Many2one('hr.employee', string="Employee", required=True)
 
@@ -16,7 +13,6 @@ class EmployeeSkillWizard(models.TransientModel):
     )
 
     experience_points = fields.Integer(string="Experience Points", required=True)
-
 
     def action_update_skills(self):
         employee = self.employee_id
